@@ -1,0 +1,26 @@
+name: TestPlugin
+main: com.gmail.buzziespy.testplugin.TestPlugin
+version: 0.5
+
+commands:
+   buzzie:
+      description: Ohz noes.
+      usage: /buzzie
+      permission:
+      permission-message:
+      
+   zap:
+      description: Drops lightning on a target, killing them.
+      usage: /zap <player>
+      permission:
+      permission-message:
+      
+permissions:
+   zapper.*:
+      description: Checks if zapping is allowed.
+      children:
+         zapper.zap: true
+   
+   zapper.zap:
+      description: Allows zapping
+      default: true
