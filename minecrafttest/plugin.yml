@@ -15,6 +15,12 @@ commands:
       permission:
       permission-message:
       
+   spawn-tame-mob:
+      description: Spawns a pet tamed to a particular player
+      usage: /spawn-tame-mob <pet> <player>
+      permission:
+      permission-message:
+      
 permissions:
    zapper.*:
       description: Checks if zapping is allowed.
