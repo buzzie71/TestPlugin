@@ -6,9 +6,11 @@
 
 package com.gmail.buzziespy.testplugin;
 
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Ocelot;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Tameable;
@@ -45,11 +47,11 @@ public final class TestPlugin extends JavaPlugin implements Listener{
 	@EventHandler
 	public void onPlayerInteractEntityEvent(PlayerInteractEntityEvent e)
 	{
-		getLogger().info("Right-clicked!");
+		//getLogger().info("Right-clicked!");
 		//do stuff if the entity right-clicked is a dog or cat (tamed?)
 		if (e.getRightClicked() instanceof Wolf || e.getRightClicked() instanceof Ocelot)
 		{
-			getLogger().info("Right-clicked on wolf or ocelot!");
+			//getLogger().info("Right-clicked on wolf or ocelot!");
 			//mark animal as pet
 			Tameable pet = (Tameable)(e.getRightClicked());
 			//if the pet is tamed
@@ -198,6 +200,75 @@ public final class TestPlugin extends JavaPlugin implements Listener{
 				
 				
 			
+			}
+		}
+		
+		//Spawns a pet tamed to a specific player at the command runner's location
+		//(/spawn-tame-mob <ocelot/wolf> <playername>)
+		//Techs: Not sure how to work permissions on this one so only modmode mods/admins can run this!  Sorry :S
+		else if (cmd.getName().equalsIgnoreCase("spawn-tame-mob"))
+		{
+			//assuming here that the person executing this command is a logged-in player and not console
+			
+			//incorrect number of args
+			if (args.length != 2)
+			{
+				sender.sendMessage("Usage: /spawn-tame-mob <ocelot/wolf/cat/dog> <playername>");
+				return true;
+			}
+			
+			//for animal spawning, I am assuming that the player whose name is included in the command (ie
+			//who the tamed pet should belong to) actually exists.
+			
+			//if pet requested is an ocelot
+			if (args[0].equalsIgnoreCase("Ocelot") || args[0].equalsIgnoreCase("Cat"))
+			{
+				Player p = (Player)sender;
+				
+				//Assuming also that the player who the pet should be tamed to is online
+				OfflinePlayer owner = (OfflinePlayer)p.getServer().getOfflinePlayer(args[1]);
+				
+				//spawn in animal at player's location
+				Ocelot pet = (Ocelot)p.getWorld().spawnEntity(p.getLocation(), EntityType.OCELOT);
+				//set owner accordingly
+				pet.setOwner(owner);
+				//use vanilla MC randomness to determine ocelot skin
+				//unsure how it's determined, can't find online...so assuming equal chance for all three skins
+				double x = Math.random();
+				if (x < (1.0/3.0))
+				{
+					//tabby cat
+					pet.setCatType(Ocelot.Type.RED_CAT);
+				}
+				else if (x < (2.0/3.0))
+				{
+					//tuxedo cat
+					pet.setCatType(Ocelot.Type.BLACK_CAT);
+				}
+				else
+				{
+					//siamese cat
+					pet.setCatType(Ocelot.Type.SIAMESE_CAT);
+				}
+				
+				
+				p.sendMessage("Spawned ocelot tamed to " + args[1]);
+				return true;
+			}
+			else if (args[0].equalsIgnoreCase("Wolf") || args[0].equalsIgnoreCase("Dog"))
+			{
+				Player p = (Player)sender;
+				
+				//Assuming also that the player who the pet should be tamed to is online
+				OfflinePlayer owner = (OfflinePlayer)p.getServer().getOfflinePlayer(args[1]);
+				
+				//spawn in animal at player's location
+				Wolf pet = (Wolf)p.getWorld().spawnEntity(p.getLocation(), EntityType.WOLF);
+				//set owner accordingly
+				pet.setOwner(owner);
+				
+				p.sendMessage("Spawned wolf tamed to " + args[1]);
+				return true;
 			}
 		}
 		
