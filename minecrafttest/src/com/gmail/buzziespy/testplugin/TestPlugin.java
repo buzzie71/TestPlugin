@@ -27,7 +27,7 @@ public final class TestPlugin extends JavaPlugin implements Listener{
 	public void onEnable()
 	{
 		//TODO Insert logic to be performed when plugin is enabled
-		getLogger().info("onEnable has been invoked!");
+		//getLogger().info("onEnable has been invoked!");
 		
 		//enable the listener
 		getServer().getPluginManager().registerEvents(this, this);
@@ -37,7 +37,7 @@ public final class TestPlugin extends JavaPlugin implements Listener{
 	public void onDisable()
 	{
 		//TODO Insert logic to be performed when plugin is enabled
-		getLogger().info("onDisable has been invoked!");
+		//getLogger().info("onDisable has been invoked!");
 	}
 	
 	//Section sign for formatting colors
@@ -157,8 +157,7 @@ public final class TestPlugin extends JavaPlugin implements Listener{
 //								target.sendMessage("BZZZZZZZZZZZT!");
 								//drop lightning on player
 //								target.getWorld().strikeLightningEffect(target.getLocation());
-								//kill player
-//								target.setHealth(0);
+								
 //								return true;
 //							}
 //							else //if not online, pretend this check never happened
